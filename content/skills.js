@@ -1,0 +1,57 @@
+// ── content/skills.js ──
+// Technical skills (rendered as syntax-highlighted YAML)
+//
+// Each line is an array of tokens: [{ text, cls }, ...]
+// Token classes: tag=key, attr=sub-key, str=value, punc=dash, cm=comment
+
+const skills = {
+  name: 'skills.yaml',
+  lang: 'YAML',
+  icon: '⚙',
+  iconClass: 'icon-yaml',
+  type: 'code',
+  content: [
+    [{ text: '# skills.yaml — Technical Skill Set', cls: 'cm' }],
+    [],
+    [{ text: 'languages:', cls: 'tag' }],
+    [{ text: '  - ', cls: 'punc' }, { text: 'Python', cls: 'str' }],
+    [{ text: '  - ', cls: 'punc' }, { text: 'Java', cls: 'str' }],
+    [{ text: '  - ', cls: 'punc' }, { text: 'JavaScript', cls: 'str' }],
+    [{ text: '  - ', cls: 'punc' }, { text: 'C#', cls: 'str' }],
+    [],
+    [{ text: 'frameworks:', cls: 'tag' }],
+    [{ text: '  backend:', cls: 'attr' }],
+    [{ text: '    - ', cls: 'punc' }, { text: 'FastAPI', cls: 'str' }],
+    [{ text: '    - ', cls: 'punc' }, { text: 'Flask', cls: 'str' }],
+    [{ text: '    - ', cls: 'punc' }, { text: 'Node.js', cls: 'str' }],
+    [{ text: '  data:', cls: 'attr' }],
+    [{ text: '    - ', cls: 'punc' }, { text: 'Plotly Dash', cls: 'str' }],
+    [{ text: '    - ', cls: 'punc' }, { text: 'Pandas', cls: 'str' }],
+    [{ text: '    - ', cls: 'punc' }, { text: 'NumPy', cls: 'str' }],
+    [{ text: '    - ', cls: 'punc' }, { text: 'SciPy', cls: 'str' }],
+    [],
+    [{ text: 'databases:', cls: 'tag' }],
+    [{ text: '  relational:', cls: 'attr' }],
+    [{ text: '    - ', cls: 'punc' }, { text: 'PostgreSQL', cls: 'str' }],
+    [{ text: '    - ', cls: 'punc' }, { text: 'MySQL', cls: 'str' }],
+    [{ text: '    - ', cls: 'punc' }, { text: 'SQLite', cls: 'str' }],
+    [{ text: '  document:', cls: 'attr' }],
+    [{ text: '    - ', cls: 'punc' }, { text: 'MongoDB', cls: 'str' }],
+    [{ text: '    - ', cls: 'punc' }, { text: 'CouchDB', cls: 'str' }],
+    [],
+    [{ text: 'technologies:', cls: 'tag' }],
+    [{ text: '  - ', cls: 'punc' }, { text: 'REST APIs', cls: 'str' }],
+    [{ text: '  - ', cls: 'punc' }, { text: 'WebSockets', cls: 'str' }],
+    [{ text: '  - ', cls: 'punc' }, { text: 'Microservices', cls: 'str' }],
+    [{ text: '  - ', cls: 'punc' }, { text: 'Data Pipelines', cls: 'str' }],
+    [{ text: '  - ', cls: 'punc' }, { text: 'Bash', cls: 'str' }],
+    [{ text: '  - ', cls: 'punc' }, { text: 'Git', cls: 'str' }],
+    [{ text: '  - ', cls: 'punc' }, { text: 'Docker', cls: 'str' }],
+    [{ text: '  - ', cls: 'punc' }, { text: 'AWS', cls: 'str' }],
+    [],
+    [{ text: 'certifications:', cls: 'tag' }],
+    [{ text: '  - ', cls: 'punc' }, { text: 'CompTIA Security+', cls: 'str' }, { text: '   ' }, { text: '# Nov 2025', cls: 'cm' }],
+    [{ text: '  - ', cls: 'punc' }, { text: 'CITI Export Compliance', cls: 'str' }, { text: ' ' }, { text: '# Aug 2025', cls: 'cm' }],
+    [{ text: '  - ', cls: 'punc' }, { text: 'CITI Biomedical Research', cls: 'str' }, { text: ' ' }, { text: '# Mar 2023', cls: 'cm' }],
+  ]
+};
