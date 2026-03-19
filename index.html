@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Joshua Patterson — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="vscode-container">
+  <!-- Title Bar -->
+  <div class="titlebar">
+    <div class="traffic-lights">
+      <span class="tl-red"></span>
+      <span class="tl-yellow"></span>
+      <span class="tl-green"></span>
+    </div>
+    <div class="title-text">Joshua Patterson — Portfolio — Visual Studio Code</div>
+    <div style="width: 52px;"></div>
+  </div>
+
+  <!-- Main -->
+  <div class="main-layout">
+    <!-- Activity Bar -->
+    <div class="activity-bar">
+      <button type="button" class="icon active" id="activityExplorer" title="Explorer (Ctrl+Shift+E)" onclick="showPanel('explorer')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7V17C3 18.1 3.9 19 5 19H19C20.1 19 21 18.1 21 17V9C21 7.9 20.1 7 19 7H13L11 5H5C3.9 5 3 5.9 3 7Z"/></svg>
+      </button>
+      <button type="button" class="icon" id="activitySearch" title="Search (Ctrl+Shift+F)" onclick="showPanel('search')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M16 16L21 21"/></svg>
+      </button>
+      <div class="icon" id="activitySource" title="Source Control">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><circle cx="6" cy="18" r="2.5"/><path d="M6 8.5V15.5M8.5 6H14C16.2 6 18 7.8 18 10V15.5"/></svg>
+      </div>
+      <button type="button" class="icon" id="activityTerminal" title="Terminal (Ctrl+`)" onclick="toggleTerminal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 17L10 11L4 5"/><path d="M12 19H20"/></svg>
+      </button>
+    </div>
+
+    <!-- Sidebar: Explorer -->
+    <div class="sidebar" id="sidebarExplorer">
+      <div class="sidebar-header">Explorer</div>
+      <div class="file-tree">
+        <div class="tree-folder open">
+          <div class="tree-folder-label">
+            <span class="chevron">▶</span>
+            <span class="folder-icon">📁</span>
+            <span>portfolio</span>
+          </div>
+          <div class="tree-children">
+            <div class="tree-file active" data-file="readme" onclick="openFile('readme')">
+              <span class="file-icon icon-md">📘</span>
+              <span>README.md</span>
+            </div>
+            <div class="tree-file" data-file="about" onclick="openFile('about')">
+              <span class="file-icon icon-py">🧑‍💻</span>
+              <span>about_me.py</span>
+            </div>
+            <div class="tree-file" data-file="experience" onclick="openFile('experience')">
+              <span class="file-icon icon-json">{ }</span>
+              <span>experience.json</span>
+            </div>
+            <div class="tree-file" data-file="projects" onclick="openFile('projects')">
+              <span class="file-icon icon-ts">TS</span>
+              <span>projects.ts</span>
+            </div>
+            <div class="tree-file" data-file="skills" onclick="openFile('skills')">
+              <span class="file-icon icon-yaml">⚙</span>
+              <span>skills.yaml</span>
+            </div>
+            <div class="tree-file" data-file="contact" onclick="openFile('contact')">
+              <span class="file-icon icon-html">&lt;/&gt;</span>
+              <span>contact.html</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar: Search -->
+    <div class="sidebar" id="sidebarSearch" style="display:none;">
+      <div class="sidebar-header">Search</div>
+      <div class="search-panel">
+        <div class="search-input-wrapper">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M16 16L21 21"/></svg>
+          <input type="text" id="searchInput" placeholder="Search across files…" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="search-results" id="searchResults">
+          <div class="search-placeholder">Type to search across all portfolio files.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Editor -->
+    <div class="editor-area">
+      <!-- Tabs -->
+      <div class="tabs-bar" id="tabsBar">
+        <div class="tab active" data-file="readme" onclick="openFile('readme')">
+          <span class="tab-icon icon-md">📘</span>
+          <span>README.md</span>
+          <span class="tab-close" onclick="event.stopPropagation(); closeTab('readme')">×</span>
+        </div>
+      </div>
+
+      <!-- Breadcrumbs -->
+      <div class="breadcrumbs" id="breadcrumbs">
+        <span>portfolio</span><span class="sep">›</span><span>README.md</span>
+      </div>
+
+      <!-- Content + Minimap -->
+      <div style="display:flex; flex:1; overflow:hidden;">
+        <div class="editor-content" id="editorContent"></div>
+        <div class="minimap" id="minimap"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Terminal -->
+  <div class="terminal-panel" id="terminalPanel">
+    <div class="terminal-resize-handle" id="terminalResizeHandle"></div>
+    <div class="terminal-header">
+      <div class="terminal-tab active">TERMINAL</div>
+      <div class="terminal-tab">PROBLEMS</div>
+      <div class="terminal-tab">OUTPUT</div>
+    </div>
+    <div class="terminal-body" id="terminalBody">
+      <div class="terminal-history" id="terminalHistory">
+        <div><span class="prompt">josh@portfolio</span> <span class="cmd">~ $ </span>echo "Welcome! Type 'help' for available commands."</div>
+        <div class="terminal-output">Welcome! Type 'help' for available commands.</div>
+      </div>
+      <div class="terminal-input-line">
+        <span class="prompt">josh@portfolio</span>
+        <span class="cmd">~ $ </span>
+        <input type="text" id="terminalInput" autocomplete="off" spellcheck="false">
+      </div>
+    </div>
+  </div>
+
+  <!-- Status Bar -->
+  <div class="statusbar">
+    <div class="statusbar-left">
+      <div class="item">⎇ main</div>
+      <div class="item">⊘ 0 ▲ 0</div>
+    </div>
+    <div class="statusbar-right">
+      <div class="item" id="statusLang">Markdown</div>
+      <div class="item">UTF-8</div>
+      <div class="item">LF</div>
+      <div class="item">Ln 1, Col 1</div>
+    </div>
+  </div>
+</div>
+
+<!-- Content data (load before app.js) -->
+<script src="content/readme.js"></script>
+<script src="content/about.js"></script>
+<script src="content/experience.js"></script>
+<script src="content/projects.js"></script>
+<script src="content/skills.js"></script>
+<script src="content/contact.js"></script>
+
+<!-- App logic -->
+<script src="app.js"></script>
+</body>
+</html>
