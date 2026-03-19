@@ -146,6 +146,9 @@ body {
 .tree-folder.open > .tree-folder-label .chevron { transform: rotate(90deg); }
 .tree-folder-label .folder-icon { color: var(--accent); font-size: 14px; }
 
+.tree-folder .tree-children { display: none; }
+.tree-folder.open > .tree-children { display: block; }
+
 .tree-file {
   display: flex; align-items: center;
   padding: 3px 16px 3px 38px; gap: 6px;
