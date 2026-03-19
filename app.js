@@ -4,7 +4,7 @@
 // Depends on content/*.js being loaded first
 
 // ── File Registry ──
-const files = { readme, about, experience, projects, skills, contact };
+const files = { readme, about, experience, projects, skills, contact, resume };
 
 // ── State ──
 let openTabs = ['readme'];
@@ -398,7 +398,7 @@ function handleTerminalCommand(input) {
 
   // echo
   if (cmd === 'echo') {
-    return args ? escapeHtml(args) : '';
+    return args || '';
   }
 
   // open <file>
