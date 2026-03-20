@@ -66,8 +66,8 @@ body {
   color: var(--text-secondary);
   flex-shrink: 0;
   gap: 12px;
-  -webkit-app-region: drag;
 }
+.titlebar-spacer { width: 52px; }
 .titlebar .traffic-lights { display: flex; gap: 8px; }
 .titlebar .traffic-lights span { width: 12px; height: 12px; border-radius: 50%; }
 .tl-red { background: #ff5f57; }
@@ -457,6 +457,9 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 .editor-content { animation: fadeIn 0.2s ease; }
+
+/* ── Editor Wrapper ── */
+.editor-wrapper { display: flex; flex: 1; overflow: hidden; }
 @keyframes blink { 50% { opacity: 0; } }
 
 /* ── Terminal Panel ── */
@@ -538,9 +541,6 @@ body {
 .term-cmd { color: var(--yellow); }
 .term-accent { color: var(--cyan); }
 .term-error { color: var(--red); }
-
-/* ── PDF icon ── */
-.icon-pdf { color: #e34c26; }
 
 /* ── Theme: Light ── */
 html[data-theme="light"] {
@@ -793,7 +793,7 @@ html[data-theme="light"] .terminal-output { color: #333; }
   .tabs-bar {
     height: 38px;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    /* touch scrolling handled natively by modern browsers */
   }
   .tab {
     padding: 0 12px;
