@@ -82,6 +82,8 @@ function openFile(fileKey) {
   renderTabs();
   renderContent(fileKey);
   updateTreeSelection(fileKey);
+  updateMobileTitle();
+  if (isMobile()) closeMobileSidebar();
 }
 
 function closeTab(fileKey) {
@@ -98,7 +100,7 @@ function renderTabs() {
   bar.innerHTML = openTabs.map(key => {
     const f = files[key];
     return `
-      <div class="tab ${key === activeFile ? 'active' : ''}" data-file="${key}" onclick="openFile('${key}')">
+      <div class="tab ${key === activeFile ? 'active' : ''}" data-file="${key}" draggable="true" onclick="openFile('${key}')">
         <span class="tab-icon ${f.iconClass}">${f.icon}</span>
         <span>${f.name}</span>
         <span class="tab-close" onclick="event.stopPropagation(); closeTab('${key}')">×</span>
@@ -129,7 +131,26 @@ function showPanel(panel) {
     source: document.getElementById('activitySource'),
   };
 
-  // Toggle off if clicking the active panel
+  // Mobile: open as slide-over drawer
+  if (isMobile()) {
+    const overlay = document.getElementById('mobileOverlay');
+    Object.values(panels).forEach(p => {
+      p.classList.remove('mobile-open');
+      p.style.display = 'none';
+    });
+    if (panels[panel]) {
+      panels[panel].classList.add('mobile-open');
+      panels[panel].style.display = 'flex';
+      overlay.classList.add('show');
+      if (panel === 'search') {
+        setTimeout(() => document.getElementById('searchInput').focus(), 100);
+      }
+      if (panel === 'source') renderGitHistory();
+    }
+    return;
+  }
+
+  // Desktop: toggle off if clicking the active panel
   if (activePanel === panel) {
     Object.values(panels).forEach(p => p.style.display = 'none');
     Object.values(icons).forEach(i => i.classList.remove('active'));
@@ -413,11 +434,8 @@ function handleTerminalCommand(input) {
   // open <file>
   if (cmd === 'open') {
     const fileKey = args.toLowerCase()
-      .replace('.md', '').replace('.py', '').replace('.json', '')
-      .replace('.ts', '').replace('.yaml', '').replace('.html', '')
-      .replace('about_me', 'about').replace('experience', 'experience')
-      .replace('skills', 'skills').replace('contact', 'contact')
-      .replace('projects', 'projects').replace('readme', 'readme');
+      .replace(/\.(md|py|json|ts|yaml|html|pdf)$/, '')
+      .replace('about_me', 'about');
     if (files[fileKey]) {
       openFile(fileKey);
       return `Opened ${files[fileKey].name}`;
@@ -428,8 +446,7 @@ function handleTerminalCommand(input) {
   // cat <file>
   if (cmd === 'cat') {
     const fileKey = args.toLowerCase()
-      .replace('.md', '').replace('.py', '').replace('.json', '')
-      .replace('.ts', '').replace('.yaml', '').replace('.html', '')
+      .replace(/\.(md|py|json|ts|yaml|html|pdf)$/, '')
       .replace('about_me', 'about');
     if (files[fileKey]) {
       const f = files[fileKey];
@@ -699,7 +716,6 @@ function initTabDrag() {
     openTabs.splice(fromIdx, 1);
     openTabs.splice(toIdx, 0, draggedTab);
     renderTabs();
-    initTabDragAttributes();
   });
 
   tabsBar.addEventListener('dragend', () => {
@@ -710,18 +726,6 @@ function initTabDrag() {
   });
 }
 
-function initTabDragAttributes() {
-  document.querySelectorAll('.tab').forEach(tab => {
-    tab.setAttribute('draggable', 'true');
-  });
-}
-
-// Patch renderTabs to add draggable
-const _originalRenderTabs = renderTabs;
-renderTabs = function() {
-  _originalRenderTabs();
-  initTabDragAttributes();
-};
 
 // ════════════════════════════════════════════════════════════
 //  STATUS BAR CLOCK
@@ -783,56 +787,11 @@ function updateMobileTitle() {
   }
 }
 
-// Patch openFile to close mobile sidebar and update mobile title
-const _originalOpenFile = openFile;
-openFile = function(fileKey) {
-  _originalOpenFile(fileKey);
-  if (isMobile()) {
-    closeMobileSidebar();
-  }
-  updateMobileTitle();
-};
-
-// Patch showPanel for mobile — open as slide-over
-const _originalShowPanel = showPanel;
-showPanel = function(panel) {
-  if (isMobile()) {
-    const panels = {
-      explorer: document.getElementById('sidebarExplorer'),
-      search: document.getElementById('sidebarSearch'),
-      source: document.getElementById('sidebarSource'),
-    };
-    const overlay = document.getElementById('mobileOverlay');
-
-    // Close all first
-    Object.values(panels).forEach(p => {
-      p.classList.remove('mobile-open');
-      p.style.display = 'none';
-    });
-
-    // Open the requested one
-    if (panels[panel]) {
-      panels[panel].classList.add('mobile-open');
-      panels[panel].style.display = 'flex';
-      overlay.classList.add('show');
-
-      if (panel === 'search') {
-        setTimeout(() => document.getElementById('searchInput').focus(), 100);
-      }
-      if (panel === 'source') {
-        renderGitHistory();
-      }
-    }
-    return;
-  }
-  _originalShowPanel(panel);
-};
 
 // ── Init ──
 renderContent('readme');
 loadSavedTheme();
 initTabDrag();
-initTabDragAttributes();
 updateClock();
 setInterval(updateClock, 15000);
 updateMobileTitle();

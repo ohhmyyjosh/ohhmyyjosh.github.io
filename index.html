@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Joshua Patterson — Software Engineer portfolio. Specializing in API design, data pipelines, and workflow automation.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>">
   <title>Joshua Patterson — Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -18,7 +20,7 @@
       <span class="tl-green"></span>
     </div>
     <div class="title-text">Joshua Patterson — Portfolio — Visual Studio Code</div>
-    <div style="width: 52px;"></div>
+    <div class="titlebar-spacer"></div>
   </div>
 
   <!-- Mobile Nav (hidden on desktop) -->
@@ -45,9 +47,9 @@
       <button type="button" class="icon" id="activitySearch" title="Search (Ctrl+Shift+F)" onclick="showPanel('search')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M16 16L21 21"/></svg>
       </button>
-      <div class="icon" id="activitySource" title="Source Control" onclick="showPanel('source')">
+      <button type="button" class="icon" id="activitySource" title="Source Control" onclick="showPanel('source')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><circle cx="6" cy="18" r="2.5"/><path d="M6 8.5V15.5M8.5 6H14C16.2 6 18 7.8 18 10V15.5"/></svg>
-      </div>
+      </button>
       <button type="button" class="icon" id="activityTerminal" title="Terminal (Ctrl+`)" onclick="toggleTerminal()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 17L10 11L4 5"/><path d="M12 19H20"/></svg>
       </button>
@@ -134,7 +136,7 @@
       </div>
 
       <!-- Content + Minimap -->
-      <div style="display:flex; flex:1; overflow:hidden;">
+      <div class="editor-wrapper">
         <div class="editor-content" id="editorContent"></div>
         <div class="minimap" id="minimap"></div>
       </div>
@@ -179,15 +181,15 @@
 </div>
 
 <!-- Content data (load before app.js) -->
-<script src="content/readme.js"></script>
-<script src="content/about.js"></script>
-<script src="content/experience.js"></script>
-<script src="content/projects.js"></script>
-<script src="content/skills.js"></script>
-<script src="content/contact.js"></script>
-<script src="content/resume.js"></script>
+<script src="content/readme.js" defer></script>
+<script src="content/about.js" defer></script>
+<script src="content/experience.js" defer></script>
+<script src="content/projects.js" defer></script>
+<script src="content/skills.js" defer></script>
+<script src="content/contact.js" defer></script>
+<script src="content/resume.js" defer></script>
 
 <!-- App logic -->
-<script src="app.js"></script>
+<script src="app.js" defer></script>
 </body>
 </html>
