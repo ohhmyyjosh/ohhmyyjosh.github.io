@@ -31,7 +31,7 @@
       <button type="button" class="icon" id="activitySearch" title="Search (Ctrl+Shift+F)" onclick="showPanel('search')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M16 16L21 21"/></svg>
       </button>
-      <div class="icon" id="activitySource" title="Source Control">
+      <div class="icon" id="activitySource" title="Source Control" onclick="showPanel('source')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><circle cx="6" cy="18" r="2.5"/><path d="M6 8.5V15.5M8.5 6H14C16.2 6 18 7.8 18 10V15.5"/></svg>
       </div>
       <button type="button" class="icon" id="activityTerminal" title="Terminal (Ctrl+`)" onclick="toggleTerminal()">
@@ -97,6 +97,12 @@
       </div>
     </div>
 
+    <!-- Sidebar: Source Control -->
+    <div class="sidebar" id="sidebarSource" style="display:none;">
+      <div class="sidebar-header">Source Control</div>
+      <div class="git-panel" id="gitPanel"></div>
+    </div>
+
     <!-- Editor -->
     <div class="editor-area">
       <!-- Tabs -->
@@ -152,7 +158,8 @@
       <div class="item" id="statusLang">Markdown</div>
       <div class="item">UTF-8</div>
       <div class="item">LF</div>
-      <div class="item">Ln 1, Col 1</div>
+      <div class="item status-theme" onclick="cycleTheme()" title="Click to change theme">🎨 <span id="statusTheme">Dark+</span></div>
+      <div class="item" id="statusClock"></div>
     </div>
   </div>
 </div>

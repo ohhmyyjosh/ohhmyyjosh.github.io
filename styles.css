@@ -31,6 +31,10 @@
   --cyan: #4ec9b0;
   --white: #d4d4d4;
   --comment: #6a9955;
+  --bg-card: #2d2d2d;
+  --bg-terminal: #1a1a1a;
+  --text-heading: #ffffff;
+  --text-subheading: #e0e0e0;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -356,15 +360,15 @@ body {
 }
 .markdown-view h1 {
   font-size: 28px; font-weight: 600; margin-bottom: 8px;
-  color: #fff; border-bottom: 1px solid var(--border); padding-bottom: 12px;
+  color: var(--text-heading); border-bottom: 1px solid var(--border); padding-bottom: 12px;
 }
 .markdown-view h2 {
   font-size: 20px; font-weight: 600;
-  margin-top: 28px; margin-bottom: 12px; color: #e0e0e0;
+  margin-top: 28px; margin-bottom: 12px; color: var(--text-subheading);
 }
 .markdown-view h3 {
   font-size: 16px; font-weight: 600;
-  margin-top: 20px; margin-bottom: 8px; color: #e0e0e0;
+  margin-top: 20px; margin-bottom: 8px; color: var(--text-subheading);
 }
 .markdown-view p { margin-bottom: 12px; }
 .markdown-view a { color: var(--accent-bright); text-decoration: none; }
@@ -375,7 +379,7 @@ body {
   padding: 2px 6px; border-radius: 3px; font-size: 13px;
 }
 .markdown-view pre {
-  background: #2d2d2d; padding: 16px; border-radius: 4px;
+  background: var(--bg-card); padding: 16px; border-radius: 4px;
   overflow-x: auto; margin: 12px 0; font-size: 13px;
 }
 .markdown-view pre code { background: none; padding: 0; }
@@ -395,16 +399,16 @@ body {
   border-left: 2px solid var(--accent);
   padding-left: 16px; margin: 16px 0;
 }
-.markdown-view .experience-block .role { font-weight: 600; color: #fff; font-size: 15px; }
+.markdown-view .experience-block .role { font-weight: 600; color: var(--text-heading); font-size: 15px; }
 .markdown-view .experience-block .company { color: var(--accent-bright); }
 .markdown-view .experience-block .date { color: var(--text-secondary); font-size: 13px; }
 .markdown-view .project-card {
-  background: #2d2d2d; border: 1px solid var(--border);
+  background: var(--bg-card); border: 1px solid var(--border);
   border-radius: 6px; padding: 16px; margin: 12px 0;
   transition: border-color 0.2s;
 }
 .markdown-view .project-card:hover { border-color: var(--accent); }
-.markdown-view .project-card h3 { margin-top: 0; margin-bottom: 6px; font-size: 15px; color: #fff; }
+.markdown-view .project-card h3 { margin-top: 0; margin-bottom: 6px; font-size: 15px; color: var(--text-heading); }
 .markdown-view .project-card p { font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; }
 
 .contact-grid {
@@ -430,7 +434,7 @@ body {
 .statusbar {
   height: 22px; background: var(--bg-statusbar);
   display: flex; align-items: center; padding: 0 12px;
-  font-family: 'Inter', sans-serif; font-size: 12px; color: #fff;
+  font-family: 'Inter', sans-serif; font-size: 12px; color: var(--text-heading);
   flex-shrink: 0; justify-content: space-between;
 }
 .statusbar-left, .statusbar-right { display: flex; align-items: center; gap: 14px; }
@@ -458,7 +462,7 @@ body {
 /* ── Terminal Panel ── */
 .terminal-panel {
   height: 0;
-  background: #1a1a1a;
+  background: var(--bg-terminal);
   border-top: 1px solid var(--border);
   overflow: hidden;
   flex-shrink: 0;
@@ -534,6 +538,178 @@ body {
 .term-cmd { color: var(--yellow); }
 .term-accent { color: var(--cyan); }
 .term-error { color: var(--red); }
+
+/* ── PDF icon ── */
+.icon-pdf { color: #e34c26; }
+
+/* ── Theme: Light ── */
+html[data-theme="light"] {
+  --bg-main: #ffffff;
+  --bg-sidebar: #f3f3f3;
+  --bg-activity: #e8e8e8;
+  --bg-tab: #ececec;
+  --bg-tab-active: #ffffff;
+  --bg-titlebar: #dddddd;
+  --bg-statusbar: #007acc;
+  --bg-editor: #ffffff;
+  --bg-minimap: rgba(0,0,0,0.03);
+  --bg-scrollbar: rgba(100,100,100,0.25);
+  --bg-hover: rgba(0,0,0,0.04);
+  --bg-selection: rgba(0,0,0,0.07);
+  --text-primary: #333333;
+  --text-secondary: #616161;
+  --text-muted: #999999;
+  --text-sidebar: #333333;
+  --border: #e0e0e0;
+  --accent: #007acc;
+  --accent-bright: #005fb8;
+  --green: #008000;
+  --green-bright: #098658;
+  --orange: #a31515;
+  --blue: #0000ff;
+  --blue-light: #001080;
+  --purple: #af00db;
+  --yellow: #795e26;
+  --red: #cd3131;
+  --cyan: #267f99;
+  --comment: #008000;
+  --bg-card: #f0f0f0;
+  --bg-terminal: #f5f5f5;
+  --text-heading: #1a1a1a;
+  --text-subheading: #333333;
+}
+
+/* ── Theme: Monokai ── */
+html[data-theme="monokai"] {
+  --bg-main: #272822;
+  --bg-sidebar: #1e1f1c;
+  --bg-activity: #1e1f1c;
+  --bg-tab: #1e1f1c;
+  --bg-tab-active: #272822;
+  --bg-titlebar: #1e1f1c;
+  --bg-statusbar: #414339;
+  --bg-editor: #272822;
+  --bg-hover: rgba(255,255,255,0.06);
+  --bg-selection: rgba(255,255,255,0.1);
+  --text-primary: #f8f8f2;
+  --text-secondary: #a6a69c;
+  --text-muted: #75715e;
+  --text-sidebar: #f8f8f2;
+  --border: #3b3a32;
+  --accent: #a6e22e;
+  --accent-bright: #a6e22e;
+  --green: #a6e22e;
+  --green-bright: #a6e22e;
+  --orange: #e6db74;
+  --blue: #66d9ef;
+  --blue-light: #66d9ef;
+  --purple: #f92672;
+  --yellow: #a6e22e;
+  --red: #f92672;
+  --cyan: #66d9ef;
+  --comment: #75715e;
+  --bg-card: #1e1f1c;
+  --bg-terminal: #1a1b18;
+  --text-heading: #f8f8f2;
+  --text-subheading: #e0e0dc;
+}
+
+/* ── Theme: Dracula ── */
+html[data-theme="dracula"] {
+  --bg-main: #282a36;
+  --bg-sidebar: #21222c;
+  --bg-activity: #21222c;
+  --bg-tab: #21222c;
+  --bg-tab-active: #282a36;
+  --bg-titlebar: #21222c;
+  --bg-statusbar: #6272a4;
+  --bg-editor: #282a36;
+  --bg-hover: rgba(255,255,255,0.06);
+  --bg-selection: #44475a;
+  --text-primary: #f8f8f2;
+  --text-secondary: #bd93f9;
+  --text-muted: #6272a4;
+  --text-sidebar: #f8f8f2;
+  --border: #44475a;
+  --accent: #bd93f9;
+  --accent-bright: #bd93f9;
+  --green: #50fa7b;
+  --green-bright: #50fa7b;
+  --orange: #f1fa8c;
+  --blue: #8be9fd;
+  --blue-light: #8be9fd;
+  --purple: #ff79c6;
+  --yellow: #50fa7b;
+  --red: #ff5555;
+  --cyan: #8be9fd;
+  --comment: #6272a4;
+  --bg-card: #21222c;
+  --bg-terminal: #1d1e28;
+  --text-heading: #f8f8f2;
+  --text-subheading: #e0e0e0;
+}
+
+/* ── Light theme terminal override ── */
+html[data-theme="light"] .terminal-output { color: #333; }
+
+/* ── Git Panel ── */
+.git-panel {
+  padding: 12px 16px;
+  font-size: 13px;
+  overflow-y: auto;
+  flex: 1;
+}
+.git-graph-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+.git-commit {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: 12px;
+  border-left: 2px solid var(--border);
+  padding-left: 12px;
+  margin-left: 4px;
+  position: relative;
+}
+.git-commit::before {
+  content: '';
+  position: absolute;
+  left: -5px; top: 12px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.git-commit-hash {
+  color: var(--accent-bright);
+  font-family: 'Fira Code', monospace;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+.git-commit-msg { color: var(--text-primary); flex: 1; }
+.git-commit-date { color: var(--text-muted); font-size: 11px; flex-shrink: 0; }
+
+/* ── Tab Drag ── */
+.tab.dragging {
+  opacity: 0.5;
+}
+.tab.drag-over {
+  border-left: 2px solid var(--accent);
+}
+
+/* ── Status Bar Extras ── */
+.status-theme {
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.status-theme:hover { opacity: 1 !important; }
 
 /* ── Responsive ── */
 @media (max-width: 768px) {

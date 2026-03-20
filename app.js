@@ -118,29 +118,38 @@ function updateTreeSelection(fileKey) {
 // ════════════════════════════════════════════════════════════
 
 function showPanel(panel) {
-  const explorerSidebar = document.getElementById('sidebarExplorer');
-  const searchSidebar = document.getElementById('sidebarSearch');
-  const explorerIcon = document.getElementById('activityExplorer');
-  const searchIcon = document.getElementById('activitySearch');
+  const panels = {
+    explorer: document.getElementById('sidebarExplorer'),
+    search: document.getElementById('sidebarSearch'),
+    source: document.getElementById('sidebarSource'),
+  };
+  const icons = {
+    explorer: document.getElementById('activityExplorer'),
+    search: document.getElementById('activitySearch'),
+    source: document.getElementById('activitySource'),
+  };
 
   // Toggle off if clicking the active panel
   if (activePanel === panel) {
-    explorerSidebar.style.display = 'none';
-    searchSidebar.style.display = 'none';
-    explorerIcon.classList.remove('active');
-    searchIcon.classList.remove('active');
+    Object.values(panels).forEach(p => p.style.display = 'none');
+    Object.values(icons).forEach(i => i.classList.remove('active'));
     activePanel = null;
     return;
   }
 
   activePanel = panel;
-  explorerIcon.classList.toggle('active', panel === 'explorer');
-  searchIcon.classList.toggle('active', panel === 'search');
-  explorerSidebar.style.display = panel === 'explorer' ? 'flex' : 'none';
-  searchSidebar.style.display = panel === 'search' ? 'flex' : 'none';
+  Object.entries(panels).forEach(([key, p]) => {
+    p.style.display = key === panel ? 'flex' : 'none';
+  });
+  Object.entries(icons).forEach(([key, i]) => {
+    i.classList.toggle('active', key === panel);
+  });
 
   if (panel === 'search') {
     setTimeout(() => document.getElementById('searchInput').focus(), 50);
+  }
+  if (panel === 'source') {
+    renderGitHistory();
   }
 }
 
@@ -580,5 +589,157 @@ document.querySelectorAll('.tree-folder-label').forEach(el => {
   });
 })();
 
+// ════════════════════════════════════════════════════════════
+//  THEME SWITCHER
+// ════════════════════════════════════════════════════════════
+
+const themes = [
+  { id: 'dark', name: 'Dark+' },
+  { id: 'light', name: 'Light' },
+  { id: 'monokai', name: 'Monokai' },
+  { id: 'dracula', name: 'Dracula' },
+];
+let currentThemeIdx = 0;
+
+function cycleTheme() {
+  currentThemeIdx = (currentThemeIdx + 1) % themes.length;
+  const theme = themes[currentThemeIdx];
+  if (theme.id === 'dark') {
+    document.documentElement.removeAttribute('data-theme');
+  } else {
+    document.documentElement.setAttribute('data-theme', theme.id);
+  }
+  document.getElementById('statusTheme').textContent = theme.name;
+  localStorage.setItem('portfolio-theme', theme.id);
+}
+
+function loadSavedTheme() {
+  const saved = localStorage.getItem('portfolio-theme');
+  if (saved) {
+    const idx = themes.findIndex(t => t.id === saved);
+    if (idx >= 0) {
+      currentThemeIdx = idx;
+      if (saved !== 'dark') {
+        document.documentElement.setAttribute('data-theme', saved);
+      }
+      document.getElementById('statusTheme').textContent = themes[idx].name;
+    }
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+//  GIT HISTORY (Source Control panel)
+// ════════════════════════════════════════════════════════════
+
+const gitCommits = [
+  { hash: 'a3f7c21', msg: 'Add interactive terminal with commands', date: '2 hours ago' },
+  { hash: 'e91b4d8', msg: 'Implement search across all files', date: '3 hours ago' },
+  { hash: '7c2f9a1', msg: 'Add resume PDF viewer and download', date: '5 hours ago' },
+  { hash: 'b8d3e56', msg: 'Split into modular file structure', date: '8 hours ago' },
+  { hash: '4f1a7c3', msg: 'Add theme switcher (Dark+, Light, Monokai, Dracula)', date: '1 day ago' },
+  { hash: 'd2e8f94', msg: 'Populate with real resume data', date: '1 day ago' },
+  { hash: '91c4b27', msg: 'Build VS Code portfolio layout', date: '2 days ago' },
+  { hash: 'f5a0d13', msg: 'feat: initial commit', date: '2 days ago' },
+];
+
+function renderGitHistory() {
+  const panel = document.getElementById('gitPanel');
+  let html = '<div class="git-graph-label">Commit History</div>';
+  gitCommits.forEach(c => {
+    html += `<div class="git-commit">
+      <span class="git-commit-hash">${c.hash}</span>
+      <span class="git-commit-msg">${c.msg}</span>
+      <span class="git-commit-date">${c.date}</span>
+    </div>`;
+  });
+  panel.innerHTML = html;
+}
+
+// ════════════════════════════════════════════════════════════
+//  TAB DRAG & DROP
+// ════════════════════════════════════════════════════════════
+
+let draggedTab = null;
+
+function initTabDrag() {
+  const tabsBar = document.getElementById('tabsBar');
+
+  tabsBar.addEventListener('dragstart', (e) => {
+    const tab = e.target.closest('.tab');
+    if (!tab) return;
+    draggedTab = tab.dataset.file;
+    tab.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+  });
+
+  tabsBar.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    const tab = e.target.closest('.tab');
+    if (!tab || tab.dataset.file === draggedTab) return;
+    // Remove drag-over from all tabs
+    tabsBar.querySelectorAll('.tab').forEach(t => t.classList.remove('drag-over'));
+    tab.classList.add('drag-over');
+  });
+
+  tabsBar.addEventListener('dragleave', (e) => {
+    const tab = e.target.closest('.tab');
+    if (tab) tab.classList.remove('drag-over');
+  });
+
+  tabsBar.addEventListener('drop', (e) => {
+    e.preventDefault();
+    const targetTab = e.target.closest('.tab');
+    if (!targetTab || !draggedTab) return;
+
+    const fromIdx = openTabs.indexOf(draggedTab);
+    const toIdx = openTabs.indexOf(targetTab.dataset.file);
+    if (fromIdx < 0 || toIdx < 0 || fromIdx === toIdx) return;
+
+    // Reorder
+    openTabs.splice(fromIdx, 1);
+    openTabs.splice(toIdx, 0, draggedTab);
+    renderTabs();
+    initTabDragAttributes();
+  });
+
+  tabsBar.addEventListener('dragend', () => {
+    draggedTab = null;
+    tabsBar.querySelectorAll('.tab').forEach(t => {
+      t.classList.remove('dragging', 'drag-over');
+    });
+  });
+}
+
+function initTabDragAttributes() {
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.setAttribute('draggable', 'true');
+  });
+}
+
+// Patch renderTabs to add draggable
+const _originalRenderTabs = renderTabs;
+renderTabs = function() {
+  _originalRenderTabs();
+  initTabDragAttributes();
+};
+
+// ════════════════════════════════════════════════════════════
+//  STATUS BAR CLOCK
+// ════════════════════════════════════════════════════════════
+
+function updateClock() {
+  const now = new Date();
+  const h = now.getHours();
+  const m = String(now.getMinutes()).padStart(2, '0');
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const h12 = h % 12 || 12;
+  document.getElementById('statusClock').textContent = `${h12}:${m} ${ampm}`;
+}
+
 // ── Init ──
 renderContent('readme');
+loadSavedTheme();
+initTabDrag();
+initTabDragAttributes();
+updateClock();
+setInterval(updateClock, 15000);
