@@ -21,6 +21,20 @@
     <div style="width: 52px;"></div>
   </div>
 
+  <!-- Mobile Nav (hidden on desktop) -->
+  <div class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav-btn" onclick="toggleMobileSidebar()" id="mobileMenuBtn" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    </button>
+    <span class="mobile-nav-title" id="mobileNavTitle">README.md</span>
+    <button class="mobile-nav-btn" onclick="toggleTerminal()" aria-label="Terminal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 17L10 11L4 5"/><path d="M12 19H20"/></svg>
+    </button>
+  </div>
+
+  <!-- Mobile Sidebar Overlay -->
+  <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileSidebar()"></div>
+
   <!-- Main -->
   <div class="main-layout">
     <!-- Activity Bar -->

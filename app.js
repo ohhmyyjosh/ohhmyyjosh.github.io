@@ -736,6 +736,98 @@ function updateClock() {
   document.getElementById('statusClock').textContent = `${h12}:${m} ${ampm}`;
 }
 
+// ════════════════════════════════════════════════════════════
+//  MOBILE SIDEBAR
+// ════════════════════════════════════════════════════════════
+
+function isMobile() {
+  return window.innerWidth <= 768;
+}
+
+function toggleMobileSidebar() {
+  const overlay = document.getElementById('mobileOverlay');
+  const explorer = document.getElementById('sidebarExplorer');
+  const search = document.getElementById('sidebarSearch');
+  const source = document.getElementById('sidebarSource');
+
+  // If any sidebar is open, close everything
+  if (explorer.classList.contains('mobile-open') ||
+      search.classList.contains('mobile-open') ||
+      source.classList.contains('mobile-open')) {
+    closeMobileSidebar();
+    return;
+  }
+
+  // Open the explorer by default
+  explorer.classList.add('mobile-open');
+  explorer.style.display = 'flex';
+  overlay.classList.add('show');
+}
+
+function closeMobileSidebar() {
+  const overlay = document.getElementById('mobileOverlay');
+  document.querySelectorAll('.sidebar').forEach(s => {
+    s.classList.remove('mobile-open');
+    // On mobile, sidebars should be hidden unless explicitly opened
+    if (isMobile()) {
+      s.style.display = 'none';
+    }
+  });
+  overlay.classList.remove('show');
+}
+
+function updateMobileTitle() {
+  const el = document.getElementById('mobileNavTitle');
+  if (el && files[activeFile]) {
+    el.textContent = files[activeFile].name;
+  }
+}
+
+// Patch openFile to close mobile sidebar and update mobile title
+const _originalOpenFile = openFile;
+openFile = function(fileKey) {
+  _originalOpenFile(fileKey);
+  if (isMobile()) {
+    closeMobileSidebar();
+  }
+  updateMobileTitle();
+};
+
+// Patch showPanel for mobile — open as slide-over
+const _originalShowPanel = showPanel;
+showPanel = function(panel) {
+  if (isMobile()) {
+    const panels = {
+      explorer: document.getElementById('sidebarExplorer'),
+      search: document.getElementById('sidebarSearch'),
+      source: document.getElementById('sidebarSource'),
+    };
+    const overlay = document.getElementById('mobileOverlay');
+
+    // Close all first
+    Object.values(panels).forEach(p => {
+      p.classList.remove('mobile-open');
+      p.style.display = 'none';
+    });
+
+    // Open the requested one
+    if (panels[panel]) {
+      panels[panel].classList.add('mobile-open');
+      panels[panel].style.display = 'flex';
+      overlay.classList.add('show');
+
+      if (panel === 'search') {
+        setTimeout(() => document.getElementById('searchInput').focus(), 100);
+      }
+      if (panel === 'source') {
+        renderGitHistory();
+      }
+    }
+    return;
+  }
+  _originalShowPanel(panel);
+};
+
 // ── Init ──
 renderContent('readme');
 loadSavedTheme();
@@ -743,3 +835,4 @@ initTabDrag();
 initTabDragAttributes();
 updateClock();
 setInterval(updateClock, 15000);
+updateMobileTitle();

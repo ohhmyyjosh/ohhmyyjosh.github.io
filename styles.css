@@ -711,10 +711,171 @@ html[data-theme="light"] .terminal-output { color: #333; }
 }
 .status-theme:hover { opacity: 1 !important; }
 
+/* ── Mobile Nav Bar ── */
+.mobile-nav {
+  display: none; /* shown via media query */
+  height: 44px;
+  background: var(--bg-titlebar);
+  align-items: center;
+  padding: 0 8px;
+  gap: 8px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
+}
+.mobile-nav-btn {
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  background: none; border: none; color: var(--text-primary);
+  cursor: pointer; border-radius: 4px; flex-shrink: 0;
+}
+.mobile-nav-btn:active { background: var(--bg-hover); }
+.mobile-nav-btn svg { width: 20px; height: 20px; }
+.mobile-nav-title {
+  flex: 1; text-align: center;
+  font-family: 'Fira Code', monospace;
+  font-size: 13px; color: var(--text-primary);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* ── Mobile Overlay ── */
+.mobile-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 50;
+}
+.mobile-overlay.show { display: block; }
+
 /* ── Responsive ── */
 @media (max-width: 768px) {
-  .sidebar { display: none; }
-  .activity-bar { width: 40px; }
+  /* Show mobile nav, hide desktop titlebar */
+  .mobile-nav { display: flex; }
+  .titlebar { display: none; }
+
+  /* Hide activity bar on mobile */
+  .activity-bar { display: none; }
+
+  /* Minimap hidden */
   .minimap { display: none; }
-  .markdown-view { padding: 20px; }
+
+  /* Sidebar becomes a slide-over drawer */
+  .sidebar {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    width: 280px;
+    z-index: 60;
+    box-shadow: 4px 0 24px rgba(0,0,0,0.4);
+    overflow-y: auto;
+  }
+  .sidebar.mobile-open {
+    display: flex;
+  }
+
+  /* Mobile sidebar header gets a close button area */
+  .sidebar-header {
+    padding: 14px 16px;
+    font-size: 13px;
+  }
+
+  /* Larger touch targets for file tree */
+  .tree-file {
+    padding: 8px 16px 8px 38px;
+    font-size: 14px;
+  }
+  .tree-folder-label {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  /* Tabs: horizontally scrollable, slightly taller */
+  .tabs-bar {
+    height: 38px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tab {
+    padding: 0 12px;
+    font-size: 12px;
+    min-width: max-content;
+  }
+
+  /* Editor content: full width, scrollable */
+  .editor-content {
+    font-size: 12px;
+  }
+  .markdown-view {
+    padding: 16px;
+    font-size: 14px;
+  }
+  .markdown-view h1 { font-size: 22px; }
+  .markdown-view h2 { font-size: 17px; }
+
+  /* Code view adjustments */
+  .line-numbers {
+    min-width: 36px;
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 12px;
+  }
+  .code-area {
+    padding: 12px 12px 12px 0;
+    font-size: 12px;
+  }
+
+  /* Terminal: full width, taller for touch */
+  .terminal-panel.open {
+    height: 180px;
+  }
+  .terminal-body {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+  .terminal-input-line input {
+    font-size: 16px; /* prevents iOS zoom on focus */
+  }
+
+  /* Status bar adjustments */
+  .statusbar {
+    font-size: 11px;
+    padding: 0 8px;
+    height: 24px;
+  }
+  .statusbar-left, .statusbar-right { gap: 8px; }
+
+  /* Breadcrumbs smaller */
+  .breadcrumbs {
+    padding: 3px 12px;
+    font-size: 11px;
+  }
+
+  /* Search panel touch-friendly */
+  .search-input-wrapper input {
+    font-size: 16px; /* prevents iOS zoom */
+    padding: 8px 0;
+  }
+  .search-match {
+    padding: 6px 4px 6px 12px;
+  }
+
+  /* Project cards */
+  .markdown-view .project-card {
+    padding: 12px;
+  }
+
+  /* Contact grid stacks */
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 4px 0;
+  }
+  .contact-grid .label {
+    margin-top: 8px;
+  }
+
+  /* Badge wrapping */
+  .markdown-view .badge {
+    font-size: 11px;
+    padding: 2px 8px;
+  }
 }
